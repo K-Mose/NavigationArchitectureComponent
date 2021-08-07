@@ -10,6 +10,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        /*
+        Navigation graph allows us to manage all the navigation related actions of the app in a single location
+         */
     }
 }
