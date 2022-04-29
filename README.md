@@ -44,3 +44,16 @@ plugins {
   id 'androidx.navigation.safeargs.kotlin' version '2.4.2' apply false
 }
 ```
+
+## Navigation Graph 
+필요한 dependency와 plugin을 설치했다면 이제 navigation graph를 추가하겠습니다. <br>
+resource set 에서 우클릭 후 New > Android Resource File 을 선택합니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165876054-1bbc141d-a2c9-409f-983c-7abee4451679.png)
+
+파일 이름을 설정한 뒤 Resource type을 Navigation으로 놓고 OK를 누릅니다. 
+![image](https://user-images.githubusercontent.com/55622345/165876260-02547aa4-0ada-4e82-84e2-a15d3ccf7338.png)
+
+Add Project Dependecy 경고창이 나오면 OK를 누릅니다. (해당 경고창은 필요로 하는 라이브러리들을 자동으로 추가여부를 묻는 창입니다.)
+
+![image](https://user-images.githubusercontent.com/55622345/165876565-330e632c-4bb8-44a3-aae2-e46c29107907.png) <br>
+이제 Navigation Graph가 추가가 완료되었습니다. 
