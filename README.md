@@ -102,7 +102,7 @@ Fragment가 생성됩니다. (같은 방법으로 두 번째 Fragment를 추가�
 Destination을 추가하게 되면 추가된 Fragment의 kt파일과 xml파일이 생성됩니다. <br>
 ![image](https://user-images.githubusercontent.com/55622345/165878933-b59b592f-3f20-4614-9680-9a672d605610.png)
 
-Frgament간 이동을 위해 아래와 같이 각각의 layout을 수정합니다. 
+Frgament간 이동을 준비하기 위해 아래와 같이 각각의 layout을 수정합니다. 
 
 <details>
 <summary>Layout-XML</summary>
@@ -189,7 +189,7 @@ Frgament간 이동을 위해 아래와 같이 각각의 layout을 수정합니�
 
 DataBinding을 각각의 Fragment에 적용합니다. 
 <details>
-<summary>Layout-XML</summary>
+<summary>Fragment</summary>
 
 *HomeFragment*
 ```class HomeFragment : Fragment() {
@@ -238,4 +238,58 @@ class SecondFragment : Fragment() {
     ……
 ```
 </details>
+
+## Navigation Action
+Fragment간 화면 이동을 위해서 `nav_graph.xml`에 Action을 추가합니다. 
+```
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kmose.navigationarchitecturecomponent.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+    </fragment>
+```
+Design 화면에서 드래깅으로 쉽게 액션을 추가할 수 있습니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165880996-2afe42cd-ea6b-438c-9d3b-e2ce83227ef9.png)
+
+추가된 Action을 `HomeFragment`의 button의 onClickListener에 추가하겠습니다. 
+```kotlin 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.apply {
+            btnSubmit.setOnClickListener {
+                if(!TextUtils.isEmpty(etName.text.toString())) {
+                    val bundle = bundleOf("user_input" to etName.text.toString())
+                    it.findNavController().navigate(R.id.action_homeFragment_to_secondFragment, bundle)
+                } else {
+                    Toast.makeText(activity, "Please input your name", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        return binding.root
+    }
+```
+Submit 버튼을 눌렀을 때 Text의 입력값을 확인 후 `Bundle`에 값을 담아 데이터를 전송합니다. `Bundle`은 입력된 key, value 값의 쌍을 `Parcelable`로 변환하여 데이터 전송하도록 도와줍니다. 
+
+전송되는 값을 `SecondFragment`에서 받도록 하겠습니다. 
+```kotlin
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_second, container, false)
+        val input:String? = requireArguments().getString("user_input")
+        binding.tvName.text = input
+
+        return binding.root
+    }
+```
 
