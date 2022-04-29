@@ -57,3 +57,14 @@ Add Project Dependecy 경고창이 나오면 OK를 누릅니다. (해당 경고�
 
 ![image](https://user-images.githubusercontent.com/55622345/165876565-330e632c-4bb8-44a3-aae2-e46c29107907.png) <br>
 이제 Navigation Graph가 추가가 완료되었습니다. 
+
+## Navigation Host Fragment 
+`NavigationHostFragment`를 추가하기 위해서 `activiy_main.xml`로 넘어갑니다. 
+
+우선 Design 화면에서 `FragmentContainerView`를 검색 후 Activiy 화면에 드래그 합니다. (`NavHostFragment`로 추가하여도 `FragmentContainerView`로 자동으로 변환되어 추가됩니다. )<br>
+![image](https://user-images.githubusercontent.com/55622345/165877576-b54f1317-24e4-4fb2-98bd-447237c6a41b.png)
+
+Activity에 `FragmentContainerView`가 추가가되면 Navigation Graph 선택 창이 나오는데, 
+`FragmentContainerView`를 Design 화면에서 추가함으로 위에서 작성한 Navigation Graph와 쉽게 연결할 수 있습니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165877237-a182dac9-6bb9-40c4-b6cb-57137193ac66.png)
+
