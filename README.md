@@ -293,3 +293,36 @@ Submit 버튼을 눌렀을 때 Text의 입력값을 확인 후 `Bundle`에 값�
     }
 ```
 
+## Animations For Actions
+기본 액션은 애니메이션 효가가 없이 화면이동이 됩니다. 애니메이션을 추가하기 위해서 일단 Action의 기본 속성들을 알아보겠습니다. 
+
+액션 화살표를 클릭하면 아래와 같은 항목들이 나타납니다. 
+![image](https://user-images.githubusercontent.com/55622345/165887990-01278a89-9d3b-4355-948e-25bbc3303711.png) <br>
+- Enter : destination간 이동 시에 새롭게 화면이 나타나는 애니메이션입니다. 
+- Exit : Enter이후 기존 destination이 사라질 때 나타나는 애니메이션 입니다.
+- Pop Enter : 이전 destination으로 돌아갈 때 이전 destination의 화면이 나타나는 애니메이션 입니다. 
+- Pop : 이전 destination으로 돌아갈 때 현재 화면이 사라지는 애니메이션 입니다. 
+
+[stackoverflow](https://stackoverflow.com/questions/18147840/slide-right-to-left-android-animations) 예제를 이용해서 화면 이동 애니메이션을 추가하겠습니다. ([참고2](https://stackoverflow.com/a/20188089))
+
+resource set에 각각의 slide 애니메이션 xml 파일을 추가합니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165889403-08d0fe5b-e230-47ac-8623-d97b3d2f2648.png)
+
+이제 Action 속성에 애니메이션들을 등록합니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165889743-5032e5ff-8acb-4170-8291-561e604ee42c.png)
+```
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kmose.navigationarchitecturecomponent.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_secondFragment"
+            app:destination="@id/secondFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+```
+
