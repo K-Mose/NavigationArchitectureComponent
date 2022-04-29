@@ -35,3 +35,12 @@ plugins {
   id 'androidx.navigation.safeargs.kotlin'
 }
 ```
+
+#### ※ Adding dependencies in Android Studio Bumblebee's top level build.gradle ※
+Android Studio Bumblebee버전 이상에서는 [top(project) level의 `build.gradle`이 변경](https://developer.android.com/studio/releases/gradle-plugin#settings-gradle)되었습니다. 
+해당 버전에서는 아래와 같이 추가하면 됩니다. 
+```
+plugins {
+  id 'androidx.navigation.safeargs.kotlin' version '2.4.2' apply false
+}
+```
