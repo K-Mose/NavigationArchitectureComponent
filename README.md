@@ -68,3 +68,174 @@ Activity에 `FragmentContainerView`가 추가가되면 Navigation Graph 선택 �
 `FragmentContainerView`를 Design 화면에서 추가함으로 위에서 작성한 Navigation Graph와 쉽게 연결할 수 있습니다. <br>
 ![image](https://user-images.githubusercontent.com/55622345/165877237-a182dac9-6bb9-40c4-b6cb-57137193ac66.png)
 
+## Navigation Destination
+Activity에 Navigation Graph가 추가되었으므로 이제 네비게이션 내에서 화면간 이동에 사용될 Fragment들을 추가하겠습니다. 
+
+생성했던 `nav_graph.xml`로 돌아와 New Destination > Create new destination을 누릅니다. 
+![image](https://user-images.githubusercontent.com/55622345/165878114-ebf75943-8866-4d76-baf8-ca45c19dd32f.png)
+
+Fragment 선택창이 나오는데 여기서 사용할 Fragment를 선택 후 **Next**를 눌러 Fragment Name을 지정 후 **Finish**를 누르면 아래와 같이  
+Fragment가 생성됩니다. (같은 방법으로 두 번째 Fragment를 추가합니다.) <br>
+![image](https://user-images.githubusercontent.com/55622345/165878593-2e987911-0195-40f9-8dd6-12f557ee3167.png)
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kmose.navigationarchitecturecomponent.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.kmose.navigationarchitecturecomponent.SecondFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_second" />
+</navigation>
+```
+처음 추가된 Fragment가 startDestiantion으로 지정됩니다. id를 변경하여 다른 Fragment로 바꿀 수 있습니다.
+
+Destination을 추가하게 되면 추가된 Fragment의 kt파일과 xml파일이 생성됩니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/165878933-b59b592f-3f20-4614-9680-9a672d605610.png)
+
+Frgament간 이동을 위해 아래와 같이 각각의 layout을 수정합니다. 
+
+<details>
+<summary>Layout-XML</summary>
+
+*fragment_home*
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeFragment">
+
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.081"
+            />
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.273"
+            android:text="SUBMIT"
+            android:textSize="30sp"
+            android:backgroundTint="@color/teal_700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+```
+  
+
+*fragment_second*
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SecondFragment">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="180dp"
+            app:layout_constraintVertical_bias="0"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+```
+</details>
+
+***※ DataBinding을 사용함으로 app level `build.gradle`에 아래와 같이 추가합니다.***
+```
+    buildFeatures {
+        dataBinding true
+    }
+```
+
+DataBinding을 각각의 Fragment에 적용합니다. 
+<details>
+<summary>Layout-XML</summary>
+
+*HomeFragment*
+```class HomeFragment : Fragment() {
+    ……
+    private lateinit var binding: FragmentHomeBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        return binding.root
+    }
+    ……
+```
+  
+
+*SecondFragment*
+```
+class SecondFragment : Fragment() {
+    ……
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_second, container, false)
+        return binding.root
+    }
+    ……
+```
+</details>
+
